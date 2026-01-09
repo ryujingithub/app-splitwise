@@ -1,9 +1,4 @@
-import Database from "better-sqlite3";
-
-export const db = new Database("database.db");
-
-db.pragma("foreign_keys = ON");
-db.exec(`
+`
   CREATE TABLE IF NOT EXISTS groups (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -92,4 +87,4 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_settlements_group ON settlements(group_id);
   CREATE INDEX IF NOT EXISTS idx_settlements_from ON settlements(from_user_id);
   CREATE INDEX IF NOT EXISTS idx_settlements_to ON settlements(to_user_id);
-`);
+`;

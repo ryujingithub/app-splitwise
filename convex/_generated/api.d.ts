@@ -8,13 +8,19 @@
  * @module
  */
 
+import type * as features_bills_mutation from "../features/bills/mutation.js";
+import type * as features_bills_query from "../features/bills/query.js";
+
 import type {
   ApiFromModules,
   FilterApi,
   FunctionReference,
 } from "convex/server";
 
-declare const fullApi: ApiFromModules<{}>;
+declare const fullApi: ApiFromModules<{
+  "features/bills/mutation": typeof features_bills_mutation;
+  "features/bills/query": typeof features_bills_query;
+}>;
 
 /**
  * A utility for referencing Convex functions in your app's public API.
