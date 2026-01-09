@@ -1,14 +1,17 @@
 import { Hono } from "hono";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import "dotenv/config";
 
-export const ocr = new Hono();
+type Env = {
+    GOOGLE_API_KEY: string;
+};
+export const ocr = new Hono<{ Bindings: Env }>();
 
 // INIT GEMINI
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || "");
-
 ocr.post("/process", async (c) => {
     try {
+        const apiKey = c.env.GOOGLE_API_KEY;
+        const genAI = new GoogleGenerativeAI(apiKey || "");
+
         const body = await c.req.parseBody();
 
         // 1. Extract File and Model from FormData
