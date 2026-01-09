@@ -12,6 +12,8 @@ import type * as features_bills_mutation from "../features/bills/mutation.js";
 import type * as features_bills_query from "../features/bills/query.js";
 import type * as features_groups_mutation from "../features/groups/mutation.js";
 import type * as features_groups_query from "../features/groups/query.js";
+import type * as features_users_mutation from "../features/users/mutation.js";
+import type * as features_users_query from "../features/users/query.js";
 
 import type {
   ApiFromModules,
@@ -24,6 +26,8 @@ declare const fullApi: ApiFromModules<{
   "features/bills/query": typeof features_bills_query;
   "features/groups/mutation": typeof features_groups_mutation;
   "features/groups/query": typeof features_groups_query;
+  "features/users/mutation": typeof features_users_mutation;
+  "features/users/query": typeof features_users_query;
 }>;
 
 /**

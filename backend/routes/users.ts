@@ -1,73 +1,88 @@
 import { Hono } from "hono";
-import {
-    User,
-    CreateUserRequest,
-    UpdateUserRequest,
-    GroupMember,
-} from "../types";
-import { db } from "../database";
+import { ConvexHttpClient } from "convex/browser";
+import { api } from "../../convex/_generated/api";
+import { Id } from "../../convex/_generated/dataModel";
+import { genSaltSync, hashSync } from "bcrypt-ts";
+import { FunctionArgs } from "convex/server";
 
+const convex = new ConvexHttpClient(process.env.CONVEX_URL!);
 export const users = new Hono();
+const convexUsers = api.features.users;
+const salt = genSaltSync(10);
 
-users.get("/", (c) => {
-    const users = db.prepare("SELECT * FROM users").all() as User[];
-    return c.json(users);
+users.get("/", async (c) => {
+    const result = await convex.query(convexUsers.query.list);
+    return c.json(result);
+});
+
+users.get("/:id", async (c) => {
+    const id = c.req.param("id") as Id<"users">;
+    const result = await convex.query(convexUsers.query.getById, { id });
+    if (!result) return c.json({ error: "User not found" }, 404);
+    return c.json(result);
 });
 
 users.post("/", async (c) => {
-    const body = await c.req.json<CreateUserRequest>();
-    const res = db
-        .prepare("INSERT INTO users (username, email) VALUES (?, ?)")
-        .run(body.username, body.email);
+    const body = await c.req.json<{
+        username: string;
+        email: string;
+        password: string;
+        role?: "member" | "admin" | "system_admin";
+    }>();
 
-    return c.json({ id: res.lastInsertRowid, ...body }, 201);
+    const passwordHash = hashSync(body.password, salt);
+
+    const result = await convex.mutation(convexUsers.mutation.create, {
+        username: body.username,
+        email: body.email,
+        passwordHash,
+        role: body.role,
+    });
+
+    return c.json(result, 201);
 });
-
+type UpdateUserArgs = FunctionArgs<typeof api.features.users.mutation.update>;
 users.patch("/:id", async (c) => {
-    const id = c.req.param("id");
-    const body = await c.req.json<UpdateUserRequest>();
+    const id = c.req.param("id") as Id<"users">;
+    const body = await c.req.json<{
+        username?: string;
+        email?: string;
+        password?: string;
+        defaultGroupId?: Id<"groups">;
+        role?: "member" | "admin" | "system_admin";
+        isActive?: boolean;
+    }>();
 
-    const user = db.prepare("SELECT * FROM users WHERE id = ?").get(id) as
-        | User
-        | undefined;
-    if (!user) return c.json({ error: "User not found" }, 404);
+    const { password, ...rest } = body;
+    const updateData: UpdateUserArgs = { id, ...rest };
 
-    db.prepare(
-        `
-    UPDATE users
-    SET username = COALESCE(?, username),
-        email = COALESCE(?, email),
-        default_group_id = COALESCE(?, default_group_id)
-    WHERE id = ?
-  `
-    ).run(body.username, body.email, body.default_group_id, id);
+    if (password) {
+        updateData.passwordHash = hashSync(password, salt);
+    }
 
-    return c.json({ message: "User updated" });
+    const result = await convex.mutation(
+        convexUsers.mutation.update,
+        updateData
+    );
+    return c.json(result);
 });
 
-users.delete("/:id", (c) => {
-    const id = c.req.param("id");
-    db.prepare("DELETE FROM users WHERE id = ?").run(id);
-    return c.json({ message: "User deleted" });
+users.delete("/:id", async (c) => {
+    const id = c.req.param("id") as Id<"users">;
+    const result = await convex.mutation(convexUsers.mutation.remove, { id });
+    return c.json(result);
 });
 
-users.get("/:id", (c) => {
-    const userId = c.req.param("id");
-    const user = db.prepare("SELECT * FROM users WHERE id = ?").get(userId) as
-        | User
-        | undefined;
+users.post("/:id/restore", async (c) => {
+    const id = c.req.param("id") as Id<"users">;
+    const result = await convex.mutation(convexUsers.mutation.restore, { id });
+    return c.json(result);
+});
 
-    if (!user) return c.json({ error: "User not found" }, 404);
-
-    const activeGroupId =
-        user.default_group_id ||
-        (
-            db
-                .prepare(
-                    "SELECT group_id FROM group_members WHERE user_id = ? LIMIT 1"
-                )
-                .get(user.id) as GroupMember | undefined
-        )?.group_id;
-
-    return c.json({ ...user, active_group_id: activeGroupId });
+users.delete("/:id/permanent", async (c) => {
+    const id = c.req.param("id") as Id<"users">;
+    const result = await convex.mutation(convexUsers.mutation.hardDelete, {
+        id,
+    });
+    return c.json(result);
 });

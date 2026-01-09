@@ -11,8 +11,21 @@ export default defineSchema({
     users: defineTable({
         username: v.string(),
         email: v.string(),
+        passwordHash: v.string(),
         defaultGroupId: v.optional(v.id("groups")),
-    }).index("by_email", ["email"]),
+        role: v.union(
+            v.literal("member"),
+            v.literal("admin"),
+            v.literal("system_admin")
+        ),
+        isActive: v.boolean(),
+        deletedAt: v.optional(v.number()),
+        createdAt: v.number(),
+        updatedAt: v.number(),
+    })
+        .index("by_email", ["email"])
+        .index("by_role", ["role"])
+        .index("by_is_active", ["isActive"]),
 
     groupMembers: defineTable({
         groupId: v.id("groups"),
