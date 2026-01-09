@@ -4,13 +4,18 @@ import "./index.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { RouterProvider } from "react-router";
 import { router } from "./routes/index.tsx";
+import { Toaster } from "sonner";
+import { AuthProvider } from "./hooks/use-auth.tsx";
 
 const client = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
-        <QueryClientProvider client={client}>
-            <RouterProvider router={router} />
-        </QueryClientProvider>
+        <AuthProvider>
+            <QueryClientProvider client={client}>
+                <RouterProvider router={router} />
+                <Toaster richColors position="top-center" />
+            </QueryClientProvider>
+        </AuthProvider>
     </StrictMode>
 );
