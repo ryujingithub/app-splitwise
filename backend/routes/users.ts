@@ -2,13 +2,13 @@ import { Hono } from "hono";
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
-import { genSaltSync, hashSync } from "bcrypt-ts";
+import { hashSync } from "bcrypt-ts";
 import { FunctionArgs } from "convex/server";
 import { Bindings } from "../types/bindings.type";
 
 export const users = new Hono<{ Bindings: Bindings }>();
 const convexUsers = api.features.users;
-const salt = genSaltSync(10);
+const salt = 10;
 const getConvex = (env: Bindings) => new ConvexHttpClient(env.CONVEX_URL);
 
 users.get("/", async (c) => {
