@@ -1,5 +1,4 @@
 import { Hono } from "hono";
-import "dotenv/config";
 
 // Types for Google API Response
 interface GoogleModel {
@@ -15,11 +14,13 @@ interface GoogleModel {
 interface GoogleModelListResponse {
     models: GoogleModel[];
 }
-
-export const aiModels = new Hono();
+type Env = {
+    GOOGLE_API_KEY: string;
+};
+export const aiModels = new Hono<{ Bindings: Env }>();
 
 aiModels.get("/", async (c) => {
-    const apiKey = process.env.GOOGLE_API_KEY;
+    const apiKey = c.env.GOOGLE_API_KEY;
     if (!apiKey) return c.json({ error: "Server misconfigured" }, 500);
 
     try {
