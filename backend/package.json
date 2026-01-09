@@ -15,7 +15,6 @@
     "type": "commonjs",
     "dependencies": {
         "@google/generative-ai": "^0.24.1",
-        "@hono/node-server": "^1.19.7",
         "better-sqlite3": "^12.5.0",
         "convex": "^1.31.3",
         "convex-helpers": "^0.1.108",
