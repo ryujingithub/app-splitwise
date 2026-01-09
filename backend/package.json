@@ -17,10 +17,13 @@
         "@google/generative-ai": "^0.24.1",
         "@hono/node-server": "^1.19.7",
         "better-sqlite3": "^12.5.0",
+        "convex": "^1.31.3",
+        "convex-helpers": "^0.1.108",
         "dotenv": "^17.2.3",
         "hono": "^4.11.3"
     },
     "devDependencies": {
+        "@cloudflare/workers-types": "^4.20260109.0",
         "@types/better-sqlite3": "^7.6.13",
         "tsx": "^4.21.0"
     }
