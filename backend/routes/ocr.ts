@@ -1,10 +1,8 @@
 import { Hono } from "hono";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Bindings } from "../types/bindings.type";
 
-type Env = {
-    GOOGLE_API_KEY: string;
-};
-export const ocr = new Hono<{ Bindings: Env }>();
+export const ocr = new Hono<{ Bindings: Bindings }>();
 
 // INIT GEMINI
 ocr.post("/process", async (c) => {

@@ -3,10 +3,10 @@ import { Hono } from "hono";
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
+import { Bindings } from "../types/bindings.type";
 
-const convex = new ConvexHttpClient(process.env.CONVEX_URL!);
-
-export const bills = new Hono();
+export const bills = new Hono<{ Bindings: Bindings }>();
+const getConvex = (env: Bindings) => new ConvexHttpClient(env.CONVEX_URL);
 
 const convexBills = api.features.bills;
 
@@ -15,6 +15,7 @@ bills.get("/", async (c) => {
     if (!groupId) return c.json({ error: "groupId required" }, 400);
 
     try {
+        const convex = getConvex(c.env);
         const result = await convex.query(convexBills.query.listByGroup, {
             groupId: groupId as Id<"groups">,
         });
@@ -27,6 +28,7 @@ bills.get("/", async (c) => {
 
 bills.get("/balances", async (c) => {
     try {
+        const convex = getConvex(c.env);
         const result = await convex.query(convexBills.query.getBalances, {});
         return c.json(result);
     } catch (err) {
@@ -37,6 +39,7 @@ bills.get("/balances", async (c) => {
 
 bills.get("/balances/v2", async (c) => {
     try {
+        const convex = getConvex(c.env);
         const result = await convex.query(
             convexBills.query.getBalancesByGroup,
             {}
@@ -52,6 +55,7 @@ bills.get("/:id", async (c) => {
     const id = c.req.param("id");
 
     try {
+        const convex = getConvex(c.env);
         const result = await convex.query(convexBills.query.getById, {
             id: id as Id<"bills">,
         });
@@ -78,6 +82,7 @@ bills.post("/", async (c) => {
     }
 
     try {
+        const convex = getConvex(c.env);
         const billId = await convex.mutation(convexBills.mutation.create, {
             title: body.title,
             groupId: body.groupId as Id<"groups">,
@@ -119,6 +124,7 @@ bills.put("/:id", async (c) => {
     }
 
     try {
+        const convex = getConvex(c.env);
         await convex.mutation(convexBills.mutation.update, {
             id: id as Id<"bills">,
             title: body.title,
@@ -153,6 +159,7 @@ bills.post("/settle", async (c) => {
     }
 
     try {
+        const convex = getConvex(c.env);
         const result = await convex.mutation(convexBills.mutation.settle, {
             assignmentIds: body.assignmentIds as Id<"billItemAssignments">[],
         });

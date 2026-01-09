@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-
+import { Bindings } from "../types/bindings.type";
 // Types for Google API Response
 interface GoogleModel {
     name: string;
@@ -14,10 +14,7 @@ interface GoogleModel {
 interface GoogleModelListResponse {
     models: GoogleModel[];
 }
-type Env = {
-    GOOGLE_API_KEY: string;
-};
-export const aiModels = new Hono<{ Bindings: Env }>();
+export const aiModels = new Hono<{ Bindings: Bindings }>();
 
 aiModels.get("/", async (c) => {
     const apiKey = c.env.GOOGLE_API_KEY;

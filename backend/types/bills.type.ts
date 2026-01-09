@@ -1,5 +1,3 @@
-import { Database } from "better-sqlite3";
-
 export interface BillResponse {
     id: number;
     group_id: number;
@@ -147,6 +145,6 @@ export type FlatResult = UnpaidResult & {
 };
 
 export interface CalculateUnpaidBalancesFn {
-    (db: Database, groupByGroup: true): GroupedResult;
-    (db: Database, groupByGroup: false): FlatResult;
+    (groupByGroup: true): GroupedResult;
+    (groupByGroup: false): FlatResult;
 }
