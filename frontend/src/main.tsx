@@ -5,7 +5,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { RouterProvider } from "react-router";
 import { router } from "./routes/index.tsx";
 import { Toaster } from "sonner";
-import { AuthProvider } from "./hooks/use-auth.tsx";
+import { AuthProvider } from "./auth/auth-context.tsx";
 
 const client = new QueryClient();
 

@@ -13,16 +13,18 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { RegisterFormData, registerSchema } from "./types/auth";
+import useRegister from "./hooks/use-register";
 
 type RegisterFormProps = {
-    onSubmit: (data: RegisterFormData) => Promise<void>;
     onSwitchToLogin: () => void;
+    onSuccess?: () => void;
 };
 
-const RegisterForm = ({ onSubmit, onSwitchToLogin }: RegisterFormProps) => {
+const RegisterForm = ({ onSwitchToLogin, onSuccess }: RegisterFormProps) => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+
+    const { mutate: register, isPending, isError, error } = useRegister();
 
     const form = useForm<RegisterFormData>({
         resolver: zodResolver(registerSchema),
@@ -34,13 +36,13 @@ const RegisterForm = ({ onSubmit, onSwitchToLogin }: RegisterFormProps) => {
         },
     });
 
-    const handleSubmit = async (data: RegisterFormData) => {
-        setIsLoading(true);
-        try {
-            await onSubmit(data);
-        } finally {
-            setIsLoading(false);
-        }
+    const handleSubmit = (data: RegisterFormData) => {
+        register(data, {
+            onSuccess: () => {
+                form.reset();
+                onSuccess?.();
+            },
+        });
     };
 
     return (
@@ -48,6 +50,14 @@ const RegisterForm = ({ onSubmit, onSwitchToLogin }: RegisterFormProps) => {
             <form
                 onSubmit={form.handleSubmit(handleSubmit)}
                 className="space-y-4">
+                {isError && (
+                    <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+                        {error instanceof Error
+                            ? error.message
+                            : "Registration failed"}
+                    </div>
+                )}
+
                 <FormField
                     control={form.control}
                     name="username"
@@ -58,6 +68,7 @@ const RegisterForm = ({ onSubmit, onSwitchToLogin }: RegisterFormProps) => {
                                 <Input
                                     placeholder="johndoe"
                                     autoComplete="username"
+                                    disabled={isPending}
                                     {...field}
                                 />
                             </FormControl>
@@ -77,6 +88,7 @@ const RegisterForm = ({ onSubmit, onSwitchToLogin }: RegisterFormProps) => {
                                     type="email"
                                     placeholder="you@example.com"
                                     autoComplete="email"
+                                    disabled={isPending}
                                     {...field}
                                 />
                             </FormControl>
@@ -99,6 +111,7 @@ const RegisterForm = ({ onSubmit, onSwitchToLogin }: RegisterFormProps) => {
                                         }
                                         placeholder="••••••••"
                                         autoComplete="new-password"
+                                        disabled={isPending}
                                         {...field}
                                     />
                                     <Button
@@ -138,6 +151,7 @@ const RegisterForm = ({ onSubmit, onSwitchToLogin }: RegisterFormProps) => {
                                         }
                                         placeholder="••••••••"
                                         autoComplete="new-password"
+                                        disabled={isPending}
                                         {...field}
                                     />
                                     <Button
@@ -163,8 +177,8 @@ const RegisterForm = ({ onSubmit, onSwitchToLogin }: RegisterFormProps) => {
                     )}
                 />
 
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading && (
+                <Button type="submit" className="w-full" disabled={isPending}>
+                    {isPending && (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}
                     Create Account

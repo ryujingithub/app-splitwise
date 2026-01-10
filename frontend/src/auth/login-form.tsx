@@ -13,15 +13,17 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { LoginFormData, loginSchema } from "./types/auth";
+import useLogin from "./hooks/use-login";
 
 type LoginFormProps = {
-    onSubmit: (data: LoginFormData) => Promise<void>;
     onSwitchToRegister: () => void;
+    onSuccess?: () => void;
 };
 
-const LoginForm = ({ onSubmit, onSwitchToRegister }: LoginFormProps) => {
+const LoginForm = ({ onSwitchToRegister, onSuccess }: LoginFormProps) => {
     const [showPassword, setShowPassword] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+
+    const { mutate: login, isPending, isError, error } = useLogin();
 
     const form = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
@@ -31,13 +33,14 @@ const LoginForm = ({ onSubmit, onSwitchToRegister }: LoginFormProps) => {
         },
     });
 
-    const handleSubmit = async (data: LoginFormData) => {
-        setIsLoading(true);
-        try {
-            await onSubmit(data);
-        } finally {
-            setIsLoading(false);
-        }
+    const handleSubmit = (data: LoginFormData) => {
+        login(data, {
+            onSuccess: (response) => {
+                localStorage.setItem("token", response.token);
+                form.reset();
+                onSuccess?.();
+            },
+        });
     };
 
     return (
@@ -45,6 +48,14 @@ const LoginForm = ({ onSubmit, onSwitchToRegister }: LoginFormProps) => {
             <form
                 onSubmit={form.handleSubmit(handleSubmit)}
                 className="space-y-4">
+                {isError && (
+                    <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+                        {error instanceof Error
+                            ? error.message
+                            : "Login failed"}
+                    </div>
+                )}
+
                 <FormField
                     control={form.control}
                     name="email"
@@ -56,6 +67,7 @@ const LoginForm = ({ onSubmit, onSwitchToRegister }: LoginFormProps) => {
                                     type="email"
                                     placeholder="you@example.com"
                                     autoComplete="email"
+                                    disabled={isPending}
                                     {...field}
                                 />
                             </FormControl>
@@ -78,6 +90,7 @@ const LoginForm = ({ onSubmit, onSwitchToRegister }: LoginFormProps) => {
                                         }
                                         placeholder="••••••••"
                                         autoComplete="current-password"
+                                        disabled={isPending}
                                         {...field}
                                     />
                                     <Button
@@ -101,8 +114,8 @@ const LoginForm = ({ onSubmit, onSwitchToRegister }: LoginFormProps) => {
                     )}
                 />
 
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading && (
+                <Button type="submit" className="w-full" disabled={isPending}>
+                    {isPending && (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}
                     Sign In

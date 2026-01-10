@@ -7,6 +7,7 @@ import { ocr } from "./routes/ocr";
 import { aiModels } from "./routes/ai-models";
 import { HonoWithConvex, HttpRouterWithHono } from "convex-helpers/server/hono";
 import { ActionCtx } from "../convex/_generated/server";
+import { auth } from "./routes/auth";
 
 const app: HonoWithConvex<ActionCtx> = new Hono();
 // 3. CORS Configuration
@@ -27,10 +28,11 @@ app.use(
 //     return c.json(messages);
 // });
 
-app.route("/users", users);
-app.route("/groups", groups);
-app.route("/bills", bills);
-app.route("/ocr", ocr);
-app.route("/models", aiModels);
+app.route("/api/users", users);
+app.route("/api/groups", groups);
+app.route("/api/bills", bills);
+app.route("/api/ocr", ocr);
+app.route("/api/models", aiModels);
+app.route("/api/auth", auth);
 
 export default app;

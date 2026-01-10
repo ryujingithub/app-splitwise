@@ -44,6 +44,7 @@ users.post("/", async (c) => {
 
     return c.json(result, 201);
 });
+
 type UpdateUserArgs = FunctionArgs<typeof api.features.users.mutation.update>;
 users.patch("/:id", async (c) => {
     const id = c.req.param("id") as Id<"users">;

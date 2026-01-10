@@ -6,7 +6,7 @@
         "backend"
     ],
     "scripts": {
-        "dev": "concurrently \"npm run dev --workspace=frontend\" \"npm run dev --workspace=backend\"",
+        "dev": "concurrently \"npm run dev --workspace=frontend\" \"npm run dev --workspace=backend\" \"npx convex dev\"",
         "build": "npm run build --workspaces",
         "test": "npm run test --workspaces"
     },

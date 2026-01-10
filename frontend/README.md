@@ -4,8 +4,8 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 Currently, two official plugins are available:
 
--   [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
--   [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 ## Expanding the ESLint configuration
 
@@ -55,36 +55,36 @@ export default tseslint.config({
 
 ## TODO
 
--   [ ] Tests
--   [ ] Viewing of existing bills per group
--   [ ] Assign in a sub group
--   [ ] Export to spreadsheet
--   [ ] Export to Markdown Format
--   [ ] Cleanup, only leave the bill splitter
--   [ ] History
--   [ ] Total when parsing data
--   [ ] Receipt Data
--   [ ] Receipt Title / Store Title
--   [ ] Easy Copieable to spreadsheet
+- [ ] Tests
+- [ ] Viewing of existing bills per group
+- [ ] Assign in a sub group
+- [ ] Export to spreadsheet
+- [ ] Export to Markdown Format
+- [ ] Cleanup, only leave the bill splitter
+- [ ] History
+- [ ] Total when parsing data
+- [ ] Receipt Data
+- [ ] Receipt Title / Store Title
+- [ ] Easy Copieable to spreadsheet
 
 Done
 
--   [x] Group Dashboard
-    -   [x] List of Groups
-    -   [x] List of members per group
--   [x] Group Management
-    -   [x] Create and Delete Group
-    -   [x] Add and Remove members per Group
--   [x] Import Bill
-    -   [x] add existing item to the current bill
-    -   [x] assign multiple bill item to members
-    -   [x] Parse specific markdown format
-    -   [x] Assign bill to a group
-    -   [x] Assign each bill item to a member of a group
+- [x] Group Dashboard
+    - [x] List of Groups
+    - [x] List of members per group
+- [x] Group Management
+    - [x] Create and Delete Group
+    - [x] Add and Remove members per Group
+- [x] Import Bill
+    - [x] add existing item to the current bill
+    - [x] assign multiple bill item to members
+    - [x] Parse specific markdown format
+    - [x] Assign bill to a group
+    - [x] Assign each bill item to a member of a group
 
 # Wants
 
--   Uploading a receipt should extract the details
--   Have a history per group
--   Can tell which person has owe
--   Docker
+- Uploading a receipt should extract the details
+- Have a history per group
+- Can tell which person has owe
+- Docker
