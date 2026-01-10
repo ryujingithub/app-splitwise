@@ -44,8 +44,6 @@ const BillSplitterPage = () => {
                 <div className="mt-6">
                     <Outlet />
                 </div>
-
-                <Toaster position="top-right" richColors />
             </div>
         </div>
     );
