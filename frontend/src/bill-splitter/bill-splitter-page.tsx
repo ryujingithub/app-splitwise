@@ -1,4 +1,3 @@
-import { Toaster } from "sonner";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 
