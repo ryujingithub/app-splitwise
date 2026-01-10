@@ -6,16 +6,13 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { useState } from "react";
-import { useNavigate } from "react-router";
 import LoginForm from "./login-form";
-import { LoginFormData } from "./types/auth";
 import RegisterForm from "./register-form";
 
 type AuthMode = "login" | "register";
 
 const AuthPage = () => {
     const [mode, setMode] = useState<AuthMode>("login");
-    const navigate = useNavigate();
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-background p-4">

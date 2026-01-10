@@ -28,8 +28,8 @@ const LoginForm = ({ onSwitchToRegister, onSuccess }: LoginFormProps) => {
     const form = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
-            email: "",
-            password: "",
+            email: "renz@gmail.com",
+            password: "!@P0k3m0n",
         },
     });
 
@@ -69,6 +69,7 @@ const LoginForm = ({ onSwitchToRegister, onSuccess }: LoginFormProps) => {
                                     autoComplete="email"
                                     disabled={isPending}
                                     {...field}
+                                    defaultValue="renz@gmail.com"
                                 />
                             </FormControl>
                             <FormMessage />

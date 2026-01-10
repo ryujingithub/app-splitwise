@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/use-auth";
+import { useAuth } from "@/auth/auth-context";
 import { Navigate, Outlet } from "react-router";
 
 export function PublicRoute() {
