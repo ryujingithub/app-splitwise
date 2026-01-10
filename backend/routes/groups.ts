@@ -55,14 +55,14 @@ groups.delete("/:id", async (c) => {
 
 groups.post("/:id/members", async (c) => {
     const groupId = c.req.param("id") as Id<"groups">;
-    const { userId, role } = await c.req.json<{
-        userId: Id<"users">;
+    const { user_id, role } = await c.req.json<{
+        user_id: Id<"users">;
         role?: string;
     }>();
     const convex = getConvex(c.env);
     const result = await convex.mutation(convexGroups.mutation.addMember, {
         groupId,
-        userId,
+        userId: user_id,
         role,
     });
     return c.json(result, 201);
