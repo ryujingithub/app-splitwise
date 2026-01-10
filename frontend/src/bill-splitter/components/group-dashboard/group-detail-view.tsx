@@ -12,7 +12,7 @@ import {
     GroupWithMembers,
     MemberOutstandingDebt,
     Bill,
-} from "@/bill-splitter/types";
+} from "@/bill-splitter/types/index.type";
 import MemberDebtTable from "./member-debt-table";
 import BillDebtBreakdown from "./bill-debt-breakdown";
 

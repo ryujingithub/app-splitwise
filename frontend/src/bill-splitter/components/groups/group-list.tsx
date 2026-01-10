@@ -12,18 +12,18 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Plus, Layers, Trash2, Loader2 } from "lucide-react";
-import { Group } from "@/bill-splitter/types";
+import { Group } from "@/bill-splitter/types/index.type";
 
 interface GroupListProps {
     groups: Group[];
     isLoading: boolean;
-    currentGroupId: number | null;
+    currentGroupId: string | null;
     newGroupName: string;
     setNewGroupName: (name: string) => void;
     onCreateGroup: () => void;
     isCreating: boolean;
-    onSelectGroup: (id: number) => void;
-    onDeleteGroup: (id: number) => void;
+    onSelectGroup: (id: string) => void;
+    onDeleteGroup: (id: string) => void;
     isDeleting: boolean;
 }
 
@@ -88,23 +88,23 @@ const GroupList: React.FC<GroupListProps> = ({
                         {groups
                             .filter((g) => !g.parent_group_id)
                             .map((g) => (
-                                <div key={g.id} className="relative group">
+                                <div key={g._id} className="relative group">
                                     <Button
                                         variant={
-                                            currentGroupId === g.id
+                                            currentGroupId === g._id
                                                 ? "default"
                                                 : "outline"
                                         }
-                                        onClick={() => onSelectGroup(g.id)}
+                                        onClick={() => onSelectGroup(g._id)}
                                         className="pr-8"
-                                        data-testid={`group-button-${g.id}`}>
+                                        data-testid={`group-button-${g._id}`}>
                                         {g.name}
                                     </Button>
                                     <button
-                                        onClick={() => onDeleteGroup(g.id)}
+                                        onClick={() => onDeleteGroup(g._id)}
                                         disabled={isDeleting}
                                         className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 hover:text-destructive transition-opacity disabled:opacity-50"
-                                        data-testid={`delete-group-${g.id}`}>
+                                        data-testid={`delete-group-${g._id}`}>
                                         <Trash2 className="w-3 h-3" />
                                     </button>
                                 </div>

@@ -12,7 +12,7 @@ import BillItemsTable from "./bill-items-table";
 import BillSummary from "./bill-summary";
 
 interface BillDetailsModalProps {
-    billId: number | null;
+    billId: string | null;
     isOpen: boolean;
     onOpenChange: (open: boolean) => void;
 }

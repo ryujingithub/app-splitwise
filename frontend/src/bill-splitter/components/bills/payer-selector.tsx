@@ -5,7 +5,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { TransformedMember } from "@/bill-splitter/types";
+import { TransformedMember } from "@/bill-splitter/types/index.type";
 import { User, WalletCards } from "lucide-react";
 
 interface PayerSelectorProps {

@@ -1,4 +1,4 @@
-import { GroupBalanceResponse } from "../types";
+import { GroupBalanceResponse } from "../types/index.type";
 
 export const balancesApi = {
     getGlobalBalances: async () => {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router";
 import BillAssignmentManager from "./bill-assignment-manager";
 import BillParserForm from "./bill-parser-form";
-import { ReviewItem } from "@/bill-splitter/types";
+import { ReviewItem } from "@/bill-splitter/types/index.type";
 
 // State interface to avoid implicit 'any'
 interface ParsedDataState {

@@ -1,9 +1,9 @@
-export interface User {
-    id: number;
+import { ConvexDefaultProps } from "./index.type";
+
+export interface User extends ConvexDefaultProps {
     username: string;
     email: string;
     default_group_id?: number | null;
-    created_at: string;
 }
 
 export interface CreateUserRequest {

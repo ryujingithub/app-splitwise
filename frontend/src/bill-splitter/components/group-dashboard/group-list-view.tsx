@@ -1,11 +1,11 @@
-import { Group } from "@/bill-splitter/types";
+import { Group } from "@/bill-splitter/types/index.type";
 import React from "react";
 import GroupList from "./group-list";
 import EmptyState from "./empty-dashboard-state";
 
 interface GroupListViewProps {
     groups: Group[];
-    onSelect: (id: number) => void;
+    onSelect: (id: string) => void;
     isLoading: boolean;
     navigate: (path: string) => void;
 }

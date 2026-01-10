@@ -1,7 +1,11 @@
-import { CreateGroupPayload, Group, GroupWithMembers } from "../types";
+import {
+    CreateGroupPayload,
+    Group,
+    GroupWithMembers,
+} from "../types/index.type";
 
 export interface AddMemberPayload {
-    user_id: number;
+    user_id: string;
     role?: string;
 }
 
@@ -13,7 +17,7 @@ export const groupsApi = {
         return json;
     },
 
-    getById: async (id: number): Promise<GroupWithMembers> => {
+    getById: async (id: string): Promise<GroupWithMembers> => {
         if (!id) throw new Error("Group ID is required");
         const res = await fetch(`/api/groups/${id}`);
         if (!res.ok) throw new Error("Failed to fetch group");
@@ -21,7 +25,7 @@ export const groupsApi = {
         return json;
     },
 
-    create: async (payload: CreateGroupPayload): Promise<{ id: number }> => {
+    create: async (payload: CreateGroupPayload): Promise<{ id: string }> => {
         const res = await fetch(`/api/groups`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -31,7 +35,7 @@ export const groupsApi = {
         return res.json();
     },
 
-    delete: async (id: number): Promise<void> => {
+    delete: async (id: string): Promise<void> => {
         const res = await fetch(`/api/groups/${id}`, {
             method: "DELETE",
         });
@@ -39,7 +43,7 @@ export const groupsApi = {
     },
 
     addMember: async (
-        groupId: number,
+        groupId: string,
         payload: AddMemberPayload
     ): Promise<void> => {
         const res = await fetch(`/api/groups/${groupId}/members`, {
@@ -50,7 +54,7 @@ export const groupsApi = {
         if (!res.ok) throw new Error("Failed to add member");
     },
 
-    removeMember: async (groupId: number, userId: number): Promise<void> => {
+    removeMember: async (groupId: string, userId: string): Promise<void> => {
         const res = await fetch(`/api/groups/${groupId}/members/${userId}`, {
             method: "DELETE",
         });

@@ -2,15 +2,15 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 import { billsApi } from "../api/bills";
+import { useGroup } from "./use-group";
+import { useGroups } from "./use-groups";
 import {
     ReviewItem,
     TransformedGroup,
     TransformedMember,
     CreateBillItemPayload,
     CreateBillPayload,
-} from "../types";
-import { useGroup } from "./use-group";
-import { useGroups } from "./use-groups";
+} from "../types/index.type";
 
 interface UseBillAssignmentProps {
     initialItems: ReviewItem[];
@@ -37,19 +37,15 @@ export const useBillAssignment = ({
     // 1. Data Fetching
     const { groups = [] } = useGroups();
 
-    const numericGroupId = targetGroupId
-        ? parseInt(targetGroupId, 10)
-        : undefined;
-
-    const { group: activeGroup } = useGroup(numericGroupId ?? null);
+    const { group: activeGroup } = useGroup(targetGroupId ?? null);
 
     // 2. Data Transformation
     const groupOptions = useMemo<Record<string, TransformedGroup>>(() => {
         const options: Record<string, TransformedGroup> = {};
 
         groups.forEach((g) => {
-            options[g.id.toString()] = {
-                id: g.id.toString(),
+            options[g._id] = {
+                id: g._id,
                 name: g.name,
                 memberIds: [],
                 members: {},
@@ -60,18 +56,18 @@ export const useBillAssignment = ({
             const membersRecord = activeGroup.members.reduce<
                 Record<string, TransformedMember>
             >((acc, m) => {
-                acc[m.id.toString()] = {
-                    id: m.id.toString(),
+                acc[m._id] = {
+                    id: m._id,
                     name: m.username,
                     role: m.role,
                 };
                 return acc;
             }, {});
 
-            options[activeGroup.id.toString()] = {
-                id: activeGroup.id.toString(),
+            options[activeGroup._id] = {
+                id: activeGroup._id,
                 name: activeGroup.name,
-                memberIds: activeGroup.members.map((m) => m.id.toString()),
+                memberIds: activeGroup.members.map((m) => m._id),
                 members: membersRecord,
             };
         }
@@ -182,19 +178,17 @@ export const useBillAssignment = ({
                     name: item.description,
                     amount: item.amount,
                     quantity: item.quantity,
-                    assigned_user_ids: item.selectedMemberIds.map((id) =>
-                        parseInt(id, 10)
-                    ),
+                    assigned_user_ids: item.selectedMemberIds.map((id) => id),
                 })
             );
 
             const payload: CreateBillPayload = {
                 title: `${title} - ${new Date().toLocaleDateString()}`,
-                group_id: parseInt(targetGroupId, 10),
-                payer_id: parseInt(payerId, 10),
+                group_id: targetGroupId,
+                payer_id: payerId,
                 bill_date: billDate,
                 raw_markdown: rawMarkdown,
-                created_by: 1,
+                created_by: "jx7az430by5f1jeva8gyq1028d7yyskz",
                 items: billItems,
             };
 

@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
-import { Bill } from "../types";
+import { Bill } from "../types/index.type";
 import { billsApi } from "../api/bills";
 
-export const useBills = (groupId?: number) => {
+export const useBills = (groupId?: string) => {
     const [bills, setBills] = useState<Bill[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);

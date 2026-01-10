@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { GroupBalanceResponse } from "@/bill-splitter/types";
+import { GroupBalanceResponse } from "@/bill-splitter/types/index.type";
 import { balancesApi } from "../api/balance";
 
 export const useGroupBalances = () => {

@@ -1,6 +1,6 @@
 // src/components/group-dashboard/bill-debt-breakdown.tsx
 import React, { useState } from "react";
-import { Bill, GroupMember } from "@/bill-splitter/types";
+import { Bill, GroupMember } from "@/bill-splitter/types/index.type";
 import { formatCurrency } from "@/bill-splitter/lib/format-currency";
 import {
     Table,
@@ -31,7 +31,7 @@ const BillDebtBreakdown: React.FC<BillDebtBreakdownProps> = ({
     bills,
     members,
 }) => {
-    const [expandedBillIds, setExpandedBillIds] = useState<number[]>([]);
+    const [expandedBillIds, setExpandedBillIds] = useState<string[]>([]);
 
     // Calculate derived data for bills
     const billRows = bills.map((bill) => {
@@ -41,14 +41,14 @@ const BillDebtBreakdown: React.FC<BillDebtBreakdownProps> = ({
         );
 
         // Identify unique members involved in this bill
-        const participantIds = new Set<number>();
+        const participantIds = new Set<string>();
         bill.items.forEach((item) => {
             item.assignments?.forEach((assignment) => {
                 participantIds.add(assignment.user_id);
             });
         });
 
-        const participants = members.filter((m) => participantIds.has(m.id));
+        const participants = members.filter((m) => participantIds.has(m._id));
 
         return {
             ...bill,
@@ -60,7 +60,7 @@ const BillDebtBreakdown: React.FC<BillDebtBreakdownProps> = ({
     const grandTotal = billRows.reduce((sum, row) => sum + row.totalAmount, 0);
 
     // Handlers
-    const toggleBill = (billId: number) => {
+    const toggleBill = (billId: string) => {
         setExpandedBillIds((prev) =>
             prev.includes(billId)
                 ? prev.filter((id) => id !== billId)
@@ -69,7 +69,7 @@ const BillDebtBreakdown: React.FC<BillDebtBreakdownProps> = ({
     };
 
     const handleExpandAll = () => {
-        setExpandedBillIds(bills.map((b) => b.id));
+        setExpandedBillIds(bills.map((b) => b._id));
     };
 
     const handleCollapseAll = () => {
@@ -142,14 +142,14 @@ const BillDebtBreakdown: React.FC<BillDebtBreakdownProps> = ({
                         ) : (
                             billRows.map((bill) => {
                                 const isExpanded = expandedBillIds.includes(
-                                    bill.id
+                                    bill._id
                                 );
                                 return (
-                                    <React.Fragment key={bill.id}>
+                                    <React.Fragment key={bill._id}>
                                         {/* Summary Row */}
                                         <TableRow
                                             className="cursor-pointer hover:bg-muted/50"
-                                            onClick={() => toggleBill(bill.id)}
+                                            onClick={() => toggleBill(bill._id)}
                                             data-state={
                                                 isExpanded
                                                     ? "selected"
@@ -180,7 +180,7 @@ const BillDebtBreakdown: React.FC<BillDebtBreakdownProps> = ({
                                                         bill.participants.map(
                                                             (p) => (
                                                                 <Badge
-                                                                    key={p.id}
+                                                                    key={p._id}
                                                                     variant="secondary"
                                                                     className="text-xs font-normal">
                                                                     {p.username}

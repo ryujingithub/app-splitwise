@@ -14,7 +14,7 @@ import GroupDestinationSelector from "./group-destination-selector";
 import PayerSelector from "./payer-selector";
 import ReviewTable from "./review-table";
 import AddItemForm from "./add-item-form";
-import { ReviewItem } from "@/bill-splitter/types";
+import { ReviewItem } from "@/bill-splitter/types/index.type";
 import { useBillAssignment } from "@/bill-splitter/hooks/use-bill-assignments";
 
 interface BillAssignmentManagerProps {
@@ -83,7 +83,7 @@ const BillAssignmentManager: React.FC<BillAssignmentManagerProps> = ({
                 <div className="bg-muted/30 p-4 rounded-lg border grid grid-cols-1 md:grid-cols-2 gap-6">
                     <GroupDestinationSelector
                         groups={groupOptions}
-                        groupIds={groupsRaw.map((g) => g.id.toString())}
+                        groupIds={groupsRaw.map((g) => g._id)}
                         selectedId={targetGroupId}
                         onSelect={setTargetGroupId}
                     />

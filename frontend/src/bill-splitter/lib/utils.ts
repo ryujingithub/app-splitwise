@@ -1,4 +1,4 @@
-import { Bill, MemberDebtSummary } from "../types";
+import { Bill, MemberDebtSummary } from "../types/index.type";
 
 export const formatDate = (dateString: string): string => {
     return new Intl.DateTimeFormat("en-AU", {
@@ -10,10 +10,10 @@ export const formatDate = (dateString: string): string => {
 
 /**
  * Calculates exactly how much a user owes based on bill item assignments.
- * Logic: Item Amount / Number of Assignments = Share per person.
+ * Logic: Item Amount / string of Assignments = Share per person.
  */
 export const calculateMemberDebt = (
-    userId: number,
+    userId: string,
     bills: Bill[]
 ): MemberDebtSummary["billBreakdown"] => {
     const breakdown: MemberDebtSummary["billBreakdown"] = [];
@@ -43,7 +43,7 @@ export const calculateMemberDebt = (
         // Only add to breakdown if user owes > 0 for this bill
         if (userBillTotal > 0) {
             breakdown.push({
-                billId: bill.id,
+                billId: bill._id,
                 title: bill.title,
                 date: bill.created_at,
                 amount: userBillTotal,

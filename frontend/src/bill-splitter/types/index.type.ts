@@ -1,18 +1,20 @@
 import { z } from "zod";
 import { User } from "./user.type";
 
-export interface Group {
-    id: number;
+export interface ConvexDefaultProps {
+    _id: string;
+    _creationTime: string;
+}
+
+export interface Group extends ConvexDefaultProps {
     name: string;
-    parent_group_id?: number | null;
-    created_at: string;
+    parent_group_id?: string | null;
 }
 
 // --- API RESPONSES (Nested Data) ---
 
-export interface GroupMember {
-    id: number;
-    group_id: number;
+export interface GroupMember extends ConvexDefaultProps {
+    group_id: string;
     role: "admin" | "member";
     username: string;
     email: string;
@@ -22,29 +24,26 @@ export interface GroupWithMembers extends Group {
     members: GroupMember[];
 }
 
-export interface BillItemAssignment {
-    id: number;
-    bill_item_id: number;
-    user_id: number;
+export interface BillItemAssignment extends ConvexDefaultProps {
+    bill_item_id: string;
+    user_id: string;
     paid_date: string | null;
 }
 
-export interface BillItem {
-    id: number;
-    bill_id: number;
+export interface BillItem extends ConvexDefaultProps {
+    bill_id: string;
     name: string;
     quantity: number;
     amount: number; // Total cost (cents or float based on DB)
     assignments: BillItemAssignment[];
 }
 
-export interface Bill {
-    id: number;
-    group_id: number;
+export interface Bill extends ConvexDefaultProps {
+    group_id: string;
     title: string;
     raw_markdown?: string;
     total_amount: number;
-    payer_id: number;
+    payer_id: string;
     bill_date: string;
     created_by: number;
     created_at: string;
@@ -55,11 +54,11 @@ export interface Bill {
 
 export interface CreateGroupPayload {
     name: string;
-    parent_group_id?: number | null;
+    parent_group_id?: string | null;
 }
 
 export interface AddGroupMemberPayload {
-    user_id: number;
+    user_id: string;
     role?: "admin" | "member";
 }
 
@@ -68,15 +67,15 @@ export interface CreateBillItemPayload {
     name: string;
     quantity: number;
     amount: number;
-    assigned_user_ids: number[]; // Array of User IDs
+    assigned_user_ids: string[]; // Array of User IDs
 }
 
 export interface CreateBillPayload {
     title: string;
-    group_id: number;
-    payer_id: number;
+    group_id: string;
+    payer_id: string;
     bill_date: string;
-    created_by: number;
+    created_by: string;
     raw_markdown?: string;
     items: CreateBillItemPayload[];
 }
@@ -88,7 +87,7 @@ export interface UpdateBillPayload extends CreateBillPayload {
 // --- VIEW MODELS (Derived / Calculated for UI) ---
 
 export interface BillDebtShare {
-    billId: number;
+    billId: string;
     title: string;
     date: string;
     amount: number;
@@ -113,7 +112,7 @@ export interface ParsedMarkdownItem {
 }
 
 export interface ReviewItem {
-    id: string; // Temporary UUID for React keys
+    id: string;
     description: string;
     quantity: number;
     amount: number;
@@ -136,22 +135,22 @@ export interface TransformedGroup {
 export interface MemberOutstandingDebt {
     user: User;
     totalOutstanding: number;
-    assignmentIds: number[];
+    assignmentIds: string[];
 }
 
 export interface RuntimeGroupMember extends GroupMember {
-    user_id?: number;
+    user_id?: string;
 }
 
 export interface GroupMemberBalance {
-    userId: number;
+    userId: string;
     name: string;
     email: string;
     balance: number;
 }
 
 export interface GroupBalanceResponse {
-    groupId: number;
+    groupId: string;
     groupName: string;
     members: GroupMemberBalance[];
 }

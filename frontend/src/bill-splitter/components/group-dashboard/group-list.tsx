@@ -1,11 +1,11 @@
 import React from "react";
 import { Users, ChevronRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Group } from "@/bill-splitter/types";
+import { Group } from "@/bill-splitter/types/index.type";
 
 interface GroupListProps {
     groups: Group[];
-    onSelect: (id: number) => void;
+    onSelect: (id: string) => void;
 }
 
 const GroupList = ({ groups, onSelect }: GroupListProps) => {
@@ -13,9 +13,9 @@ const GroupList = ({ groups, onSelect }: GroupListProps) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {groups.map((g) => (
                 <Card
-                    key={g.id}
+                    key={g._id}
                     className="cursor-pointer hover:border-primary transition-colors group"
-                    onClick={() => onSelect(g.id)}>
+                    onClick={() => onSelect(g._id)}>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-base font-medium">
                             {g.name}

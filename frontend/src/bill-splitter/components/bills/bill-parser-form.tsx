@@ -20,7 +20,7 @@ import {
     ReviewItem,
     parserSchema,
     ParsedMarkdownItem,
-} from "@/bill-splitter/types";
+} from "@/bill-splitter/types/index.type";
 import { useBillScanner } from "@/bill-splitter/hooks/use-bill-scanner";
 import FileUploadZone from "./file-upload";
 import ModelSelector from "./model-selector";

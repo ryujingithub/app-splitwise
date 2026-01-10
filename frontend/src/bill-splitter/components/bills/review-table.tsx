@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-import { ReviewItem, TransformedGroup } from "@/bill-splitter/types";
+import { ReviewItem, TransformedGroup } from "@/bill-splitter/types/index.type";
 import { formatCurrency } from "@/bill-splitter/lib/format-currency";
 
 interface ReviewTableProps {

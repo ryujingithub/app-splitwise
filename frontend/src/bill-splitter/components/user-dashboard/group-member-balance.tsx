@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/bill-splitter/lib/format-currency";
 
 export interface GroupMemberBalance {
-    userId: number;
+    userId: string;
     name: string;
     email: string;
     balance: number;

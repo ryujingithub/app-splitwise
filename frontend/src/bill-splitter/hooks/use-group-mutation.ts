@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AddMemberPayload, groupsApi } from "../api/groups";
 import { queryKeys } from "../lib/query-keys";
 
-export const useGroupMutations = (groupId: number) => {
+export const useGroupMutations = (groupId: string) => {
     const queryClient = useQueryClient();
 
     const addMemberMutation = useMutation({
@@ -16,7 +16,7 @@ export const useGroupMutations = (groupId: number) => {
     });
 
     const removeMemberMutation = useMutation({
-        mutationFn: (userId: number) => groupsApi.removeMember(groupId, userId),
+        mutationFn: (userId: string) => groupsApi.removeMember(groupId, userId),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: queryKeys.groups.detail(groupId),

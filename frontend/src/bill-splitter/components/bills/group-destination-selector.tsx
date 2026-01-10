@@ -1,4 +1,4 @@
-import { TransformedGroup } from "@/bill-splitter/types";
+import { TransformedGroup } from "@/bill-splitter/types/index.type";
 import {
     Select,
     SelectContent,

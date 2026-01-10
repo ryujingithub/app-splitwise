@@ -24,7 +24,7 @@ export function useUsers() {
             id,
             payload,
         }: {
-            id: number;
+            id: string;
             payload: UpdateUserRequest;
         }) => usersApi.update(id, payload),
         onSuccess: () => {
@@ -33,11 +33,13 @@ export function useUsers() {
     });
 
     const deleteMutation = useMutation({
-        mutationFn: (id: number) => usersApi.delete(id),
+        mutationFn: (id: string) => usersApi.delete(id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: queryKeys.users.all });
         },
     });
+
+    console.log(`USERS DATA: ${JSON.stringify(query.data, null, 2)}`);
 
     return {
         users: query.data ?? [],

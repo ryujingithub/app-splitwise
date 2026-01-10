@@ -15,7 +15,8 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useGroupMutations } from "@/bill-splitter/hooks/use-group-mutation";
 import { useUsers } from "@/bill-splitter/hooks/use-users";
 import UserCreationDialog from "./user-creation-dialog";
-import { GroupWithMembers } from "@/bill-splitter/types";
+import { GroupWithMembers } from "@/bill-splitter/types/index.type";
+import { User } from "@/bill-splitter/types/user.type";
 
 interface MemberManagementProps {
     group: GroupWithMembers;
@@ -32,17 +33,17 @@ const MemberManagement = ({ group }: MemberManagementProps) => {
         removeMember,
         isRemovingMember,
         refetch,
-    } = useGroupMutations(group.id);
+    } = useGroupMutations(group._id);
 
     const availableUsers = users.filter(
-        (user) => !group.members.some((m) => m.id === user.id)
+        (user) => !group.members.some((m) => m._id === user._id)
     );
 
     const handleAddMember = async () => {
         if (!selectedUserId) return;
         try {
             await addMember({
-                user_id: parseInt(selectedUserId),
+                user_id: selectedUserId,
                 role: selectedRole,
             });
             setSelectedUserId("");
@@ -53,7 +54,7 @@ const MemberManagement = ({ group }: MemberManagementProps) => {
         }
     };
 
-    const handleRemoveMember = async (userId: number) => {
+    const handleRemoveMember = async (userId: string) => {
         try {
             await removeMember(userId);
             toast.success("Member removed");
@@ -62,12 +63,8 @@ const MemberManagement = ({ group }: MemberManagementProps) => {
         }
     };
 
-    const handleUserCreated = (user: {
-        id: number;
-        username: string;
-        email: string;
-    }) => {
-        setSelectedUserId(user.id.toString());
+    const handleUserCreated = (user: User) => {
+        setSelectedUserId(user._id);
         toast.success("User created. You can now add them as a member.");
     };
 
@@ -101,8 +98,8 @@ const MemberManagement = ({ group }: MemberManagementProps) => {
                         <SelectContent>
                             {availableUsers.map((user) => (
                                 <SelectItem
-                                    key={user.id}
-                                    value={user.id.toString()}>
+                                    key={user._id}
+                                    value={user._id.toString()}>
                                     {user.username}
                                 </SelectItem>
                             ))}
@@ -153,9 +150,9 @@ const MemberManagement = ({ group }: MemberManagementProps) => {
                     )}
                     {group.members.map((m) => (
                         <div
-                            key={m.id}
+                            key={m._id}
                             className="flex items-center justify-between p-2 rounded hover:bg-muted/50"
-                            data-testid={`member-${m.id}`}>
+                            data-testid={`member-${m._id}`}>
                             <div>
                                 <span className="text-sm font-medium">
                                     {m.username}
@@ -170,9 +167,9 @@ const MemberManagement = ({ group }: MemberManagementProps) => {
                             <Button
                                 variant="ghost"
                                 size="icon"
-                                onClick={() => handleRemoveMember(m.id)}
+                                onClick={() => handleRemoveMember(m._id)}
                                 disabled={isRemovingMember}
-                                data-testid={`remove-member-${m.id}`}>
+                                data-testid={`remove-member-${m._id}`}>
                                 <Trash2 className="w-4 h-4 text-destructive" />
                             </Button>
                         </div>

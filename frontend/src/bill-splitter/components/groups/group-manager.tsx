@@ -9,7 +9,7 @@ import GroupList from "./group-list";
 import MemberManagement from "./member-management";
 
 const GroupManager = () => {
-    const [currentGroupId, setCurrentGroupId] = useState<number | null>(null);
+    const [currentGroupId, setCurrentGroupId] = useState<string | null>(null);
     const [newGroupName, setNewGroupName] = useState("");
 
     const {
@@ -26,7 +26,7 @@ const GroupManager = () => {
 
     const error = groupsError || groupError;
 
-    const handleSelectGroup = (id: number) => {
+    const handleSelectGroup = (id: string) => {
         setCurrentGroupId(id);
     };
 
@@ -42,7 +42,7 @@ const GroupManager = () => {
         }
     };
 
-    const handleDeleteGroup = async (id: number) => {
+    const handleDeleteGroup = async (id: string) => {
         try {
             await deleteGroup(id);
             if (currentGroupId === id) {

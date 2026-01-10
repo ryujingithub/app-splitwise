@@ -8,7 +8,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { formatCurrency } from "@/bill-splitter/lib/format-currency";
-import { BillItem, GroupMember } from "@/bill-splitter/types";
+import { BillItem, GroupMember } from "@/bill-splitter/types/index.type";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Copy } from "lucide-react";
@@ -27,7 +27,7 @@ const BillItemsTable = ({ items, members }: BillItemsTableProps) => {
     const getAssigneeNames = (assignments: BillItem["assignments"]) => {
         if (!assignments || assignments.length === 0) return [];
         return assignments.map((assignment) => {
-            const member = members.find((m) => m.id === assignment.user_id);
+            const member = members.find((m) => m._id === assignment.user_id);
             return member?.username || "Unknown";
         });
     };
@@ -87,7 +87,7 @@ const BillItemsTable = ({ items, members }: BillItemsTableProps) => {
                     {items.map((item) => {
                         const names = getAssigneeNames(item.assignments);
                         return (
-                            <TableRow key={item.id}>
+                            <TableRow key={item._id}>
                                 <TableCell className="font-medium">
                                     {item.name}
                                 </TableCell>
@@ -107,7 +107,7 @@ const BillItemsTable = ({ items, members }: BillItemsTableProps) => {
                                         {names.length > 0 ? (
                                             names.map((name, index) => (
                                                 <Badge
-                                                    key={`${item.id}-${index}`}
+                                                    key={`${item._id}-${index}`}
                                                     variant="secondary"
                                                     className="text-xs font-normal">
                                                     {name}

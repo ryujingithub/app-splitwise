@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import GroupMemberRow, { GroupMemberBalance } from "./group-member-balance";
 
 export interface GroupBalanceData {
-    groupId: number;
+    groupId: string;
     groupName: string;
     members: GroupMemberBalance[];
 }

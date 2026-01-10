@@ -1,4 +1,8 @@
-import { Bill, CreateBillPayload, UpdateBillPayload } from "../types";
+import {
+    Bill,
+    CreateBillPayload,
+    UpdateBillPayload,
+} from "../types/index.type";
 
 export const billsApi = {
     create: async (payload: CreateBillPayload) => {
@@ -20,7 +24,7 @@ export const billsApi = {
         return response.json();
     },
 
-    update: async (id: number, payload: UpdateBillPayload) => {
+    update: async (id: string, payload: UpdateBillPayload) => {
         const response = await fetch(`/api/bills/${id}`, {
             method: "PUT",
             headers: {
@@ -39,20 +43,20 @@ export const billsApi = {
         return response.json();
     },
 
-    getByBillId: async (id: number): Promise<Bill> => {
+    getByBillId: async (id: string): Promise<Bill> => {
         const response = await fetch(`/api/bills/${id}`);
         if (!response.ok) throw new Error("Failed to fetch bill");
         return response.json();
     },
 
-    getByGroup: async (groupId: number): Promise<Bill[]> => {
+    getByGroup: async (groupId: string): Promise<Bill[]> => {
         const response = await fetch(`/api/bills?groupId=${groupId}`);
         if (!response.ok) throw new Error("Failed to fetch bills");
         return response.json();
     },
 
     settleDebts: async (payload: {
-        assignmentIds: number[];
+        assignmentIds: string[];
     }): Promise<void> => {
         const response = await fetch("/api/bills/settle", {
             method: "POST",

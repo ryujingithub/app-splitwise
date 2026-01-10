@@ -9,15 +9,15 @@ import {
     GroupWithMembers,
     MemberOutstandingDebt,
     RuntimeGroupMember,
-} from "../types";
+} from "../types/index.type";
 import { billsApi } from "../api/bills";
 import { User } from "../types/user.type";
 
 export const useGroupDashboard = (urlGroupId?: string) => {
     const navigate = (path: string) => (window.location.href = path);
 
-    const [selectedGroupId, setSelectedGroupId] = useState<number | undefined>(
-        urlGroupId ? parseInt(urlGroupId, 10) : undefined
+    const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(
+        urlGroupId ? urlGroupId : undefined
     );
 
     const [settlementCandidate, setSettlementCandidate] =
@@ -39,9 +39,9 @@ export const useGroupDashboard = (urlGroupId?: string) => {
 
         return members.map((member: RuntimeGroupMember) => {
             let rawTotalOwed = 0;
-            const unpaidIds: number[] = [];
+            const unpaidIds: string[] = [];
 
-            const memberUserId = member.user_id ?? member.id;
+            const memberUserId = member.user_id ?? member._id;
 
             if (!memberUserId) {
                 console.warn("Member missing ID:", member);
@@ -64,7 +64,7 @@ export const useGroupDashboard = (urlGroupId?: string) => {
                     if (userAssignment && !userAssignment.paid_date) {
                         const share = item.amount / assignees.length;
                         rawTotalOwed += share;
-                        unpaidIds.push(userAssignment.id);
+                        unpaidIds.push(userAssignment._id);
                     }
                 });
             });
@@ -72,10 +72,10 @@ export const useGroupDashboard = (urlGroupId?: string) => {
             const totalOutstanding = Math.round(rawTotalOwed);
 
             const userObj: User = {
-                id: memberUserId,
+                _id: memberUserId,
                 username: member.username || "Unknown",
                 email: member.email || "",
-                created_at: new Date().toISOString(),
+                _creationTime: "", // backend fills this automatically
             };
 
             return {
@@ -86,7 +86,7 @@ export const useGroupDashboard = (urlGroupId?: string) => {
         });
     })();
 
-    const handleSelectGroup = (id: number | undefined) =>
+    const handleSelectGroup = (id: string | undefined) =>
         setSelectedGroupId(id);
     const handleInitiateSettlement = (debt: MemberOutstandingDebt) =>
         setSettlementCandidate(debt);

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { billsApi } from "../api/bills";
 
-const useBillDetails = (billId: number | null, isOpen: boolean) => {
+const useBillDetails = (billId: string | null, isOpen: boolean) => {
     const query = useQuery({
         queryKey: ["bill", billId],
         queryFn: () => billsApi.getByBillId(billId!),

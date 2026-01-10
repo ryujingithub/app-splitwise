@@ -9,7 +9,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { MemberOutstandingDebt } from "@/bill-splitter/types";
+import { MemberOutstandingDebt } from "@/bill-splitter/types/index.type";
 import { formatCurrency } from "@/bill-splitter/lib/format-currency";
 
 interface SettlementModalProps {

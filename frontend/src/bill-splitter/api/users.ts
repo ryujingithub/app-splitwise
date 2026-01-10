@@ -17,7 +17,7 @@ export const usersApi = {
         return response.json();
     },
 
-    update: async (id: number, payload: UpdateUserRequest): Promise<void> => {
+    update: async (id: string, payload: UpdateUserRequest): Promise<void> => {
         const response = await fetch(`/api/users/${id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
@@ -26,7 +26,7 @@ export const usersApi = {
         if (!response.ok) throw new Error("Failed to update user");
     },
 
-    delete: async (id: number): Promise<void> => {
+    delete: async (id: string): Promise<void> => {
         const response = await fetch(`/api/users/${id}`, {
             method: "DELETE",
         });

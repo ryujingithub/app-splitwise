@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { billsApi } from "../api/bills";
 
 export type UserBalance = {
-    id: number;
+    id: string;
     name: string;
     email: string;
     netBalance: number; // Positive = Owed to them, Negative = They owe

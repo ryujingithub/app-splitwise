@@ -1,11 +1,10 @@
 import { formatCurrency } from "@/bill-splitter/lib/format-currency";
-import { formatDate } from "@/bill-splitter/lib/format-date";
 import { Badge } from "@/components/ui/badge";
 
 interface BillSummaryProps {
     date: string;
     total: number;
-    payerId: number;
+    payerId: string;
 }
 
 const BillSummary = ({ date, total, payerId }: BillSummaryProps) => {

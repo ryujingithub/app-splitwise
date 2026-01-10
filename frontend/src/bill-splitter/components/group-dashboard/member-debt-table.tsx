@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MemberOutstandingDebt } from "@/bill-splitter/types";
+import { MemberOutstandingDebt } from "@/bill-splitter/types/index.type";
 import { formatCurrency } from "@/bill-splitter/lib/format-currency";
 
 interface MemberDebtTableProps {
@@ -34,7 +34,7 @@ const MemberDebtTable = ({ debts, onSettle }: MemberDebtTableProps) => {
                 </TableHeader>
                 <TableBody>
                     {debts.map((item) => (
-                        <TableRow key={item.user.id}>
+                        <TableRow key={item.user._id}>
                             <TableCell className="font-medium">
                                 <div className="flex items-center gap-2">
                                     <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
