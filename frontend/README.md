@@ -56,7 +56,7 @@ export default tseslint.config({
 ## TODO
 
 - [ ] Tests
-- [ ] Viewing of existing bills per group
+- [x] Viewing of existing bills per group
 - [ ] Assign in a sub group
 - [ ] Export to spreadsheet
 - [ ] Export to Markdown Format
