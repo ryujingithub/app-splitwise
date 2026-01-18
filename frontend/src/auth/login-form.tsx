@@ -28,8 +28,8 @@ const LoginForm = ({ onSwitchToRegister, onSuccess }: LoginFormProps) => {
     const form = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
-            email: "renz@gmail.com",
-            password: "!@P0k3m0n",
+            email: "",
+            password: "",
         },
     });
 
