@@ -5,7 +5,7 @@ import { bills } from "./routes/bills";
 import { groups } from "./routes/groups";
 import { ocr } from "./routes/ocr";
 import { aiModels } from "./routes/ai-models";
-import { HonoWithConvex, HttpRouterWithHono } from "convex-helpers/server/hono";
+import { HonoWithConvex } from "convex-helpers/server/hono";
 import { ActionCtx } from "../convex/_generated/server";
 import { auth } from "./routes/auth";
 
@@ -16,8 +16,8 @@ app.use(
     cors({
         // In production, you might want to change this to your actual domain
         // or just keep it * if you are comfortable with that.
-        origin: "http://localhost:5173",
-    })
+        origin: "https://app-splitwise.ryujin-me-cloudflare.workers.dev",
+    }),
 );
 
 // app.get("/listMessages/:userId{[0-9]+}", async (c) => {
