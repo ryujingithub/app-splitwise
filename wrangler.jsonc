@@ -12,8 +12,5 @@
     // This injects the CONVEX_URL binding used in index.ts (and passed to routes)
     "vars": {
         "CONVEX_URL": "https://ceaseless-bat-216.convex.site",
-        "BETTER_AUTH_URL": "http://localhost:5173",
-        "BETTER_AUTH_SECRET": "",
-        "JWT_SECRET": "",
     },
 }
