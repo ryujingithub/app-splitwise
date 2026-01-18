@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactNode, useCallback } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { AuthContext } from "./hooks/use-auth";
 import { User } from "./types/auth";
 
@@ -29,19 +29,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setIsLoading(false);
     }, []);
 
-    const login = useCallback((user: User, token: string) => {
+    const login = (user: User, token: string) => {
         setUser(user);
         setToken(token);
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
-    }, []);
+    };
 
-    const logout = useCallback(() => {
+    const logout = () => {
         setUser(null);
         setToken(null);
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-    }, []);
+    };
 
     return (
         <AuthContext.Provider

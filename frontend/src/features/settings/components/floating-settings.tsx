@@ -13,6 +13,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
+import { useAuth } from "@/auth/hooks/use-auth";
 
 interface SettingsMenuItem {
     id: "account" | "profile" | "manage" | "logout";
@@ -41,12 +42,9 @@ const menuItems: SettingsMenuItem[] = [
     },
 ];
 
-interface FloatingSettingsProps {
-    onLogout?: () => void;
-}
-
-const FloatingSettings = ({ onLogout }: FloatingSettingsProps) => {
+const FloatingSettings = () => {
     const navigate = useNavigate();
+    const { logout: onLogout } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOptionClick = (id: SettingsMenuItem["id"]) => {
