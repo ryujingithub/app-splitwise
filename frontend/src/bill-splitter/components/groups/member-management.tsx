@@ -16,7 +16,7 @@ import { useGroupMutations } from "@/bill-splitter/hooks/use-group-mutation";
 import { useUsers } from "@/bill-splitter/hooks/use-users";
 import UserCreationDialog from "./user-creation-dialog";
 import { GroupWithMembers } from "@/bill-splitter/types/index.type";
-import { User } from "@/bill-splitter/types/user.type";
+import { User } from "@/auth/types/auth";
 
 interface MemberManagementProps {
     group: GroupWithMembers;
@@ -36,7 +36,7 @@ const MemberManagement = ({ group }: MemberManagementProps) => {
     } = useGroupMutations(group._id);
 
     const availableUsers = users.filter(
-        (user) => !group.members.some((m) => m._id === user._id)
+        (user) => !group.members.some((m) => m._id === user._id),
     );
 
     const handleAddMember = async () => {

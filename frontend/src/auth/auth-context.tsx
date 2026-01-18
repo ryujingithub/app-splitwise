@@ -1,30 +1,6 @@
-// src/features/auth/context/AuthContext.tsx
-import {
-    createContext,
-    useContext,
-    useState,
-    useEffect,
-    ReactNode,
-    useCallback,
-} from "react";
-
-type User = {
-    _id: string;
-    username: string;
-    email: string;
-    role: "member" | "admin" | "system_admin";
-};
-
-type AuthContextType = {
-    user: User | null;
-    token: string | null;
-    isAuthenticated: boolean;
-    isLoading: boolean;
-    login: (user: User, token: string) => void;
-    logout: () => void;
-};
-
-const AuthContext = createContext<AuthContextType | null>(null);
+import { useState, useEffect, ReactNode, useCallback } from "react";
+import { AuthContext } from "./hooks/use-auth";
+import { User } from "./types/auth";
 
 type AuthProviderProps = {
     children: ReactNode;
@@ -80,12 +56,4 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             {children}
         </AuthContext.Provider>
     );
-};
-
-export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error("useAuth must be used within an AuthProvider");
-    }
-    return context;
 };

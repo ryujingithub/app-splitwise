@@ -1,11 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider } from "./auth/auth-context";
+
 import "./index.css";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { RouterProvider } from "react-router";
-import { router } from "./routes/index.tsx";
-import { Toaster } from "sonner";
-import { AuthProvider } from "./auth/auth-context.tsx";
+import App from "./app";
 
 const client = new QueryClient();
 
@@ -13,8 +12,7 @@ createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <AuthProvider>
             <QueryClientProvider client={client}>
-                <RouterProvider router={router} />
-                <Toaster position="top-right" richColors />
+                <App />
             </QueryClientProvider>
         </AuthProvider>
     </StrictMode>

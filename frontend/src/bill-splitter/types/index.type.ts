@@ -1,5 +1,5 @@
+import { User } from "@/auth/types/auth";
 import { z } from "zod";
-import { User } from "./user.type";
 
 export interface ConvexDefaultProps {
     _id: string;
@@ -16,6 +16,7 @@ export interface Group extends ConvexDefaultProps {
 export interface GroupMember extends ConvexDefaultProps {
     group_id: string;
     role: "admin" | "member";
+    user_id: string;
     username: string;
     email: string;
 }
@@ -139,7 +140,7 @@ export interface MemberOutstandingDebt {
 }
 
 export interface RuntimeGroupMember extends GroupMember {
-    user_id?: string;
+    isActive?: boolean;
 }
 
 export interface GroupMemberBalance {

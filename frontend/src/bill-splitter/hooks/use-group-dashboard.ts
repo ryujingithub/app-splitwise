@@ -11,13 +11,13 @@ import {
     RuntimeGroupMember,
 } from "../types/index.type";
 import { billsApi } from "../api/bills";
-import { User } from "../types/user.type";
+import { User } from "@/auth/types/auth";
 
 export const useGroupDashboard = (urlGroupId?: string) => {
     const navigate = (path: string) => (window.location.href = path);
 
     const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(
-        urlGroupId ? urlGroupId : undefined
+        urlGroupId ? urlGroupId : undefined,
     );
 
     const [settlementCandidate, setSettlementCandidate] =
@@ -44,7 +44,6 @@ export const useGroupDashboard = (urlGroupId?: string) => {
             const memberUserId = member.user_id ?? member._id;
 
             if (!memberUserId) {
-                console.warn("Member missing ID:", member);
                 return {
                     user: { ...member, id: 0 } as unknown as User,
                     totalOutstanding: 0,
@@ -58,7 +57,7 @@ export const useGroupDashboard = (urlGroupId?: string) => {
                     if (assignees.length === 0) return;
 
                     const userAssignment = assignees.find(
-                        (a) => a.user_id === memberUserId
+                        (a) => a.user_id === memberUserId,
                     );
 
                     if (userAssignment && !userAssignment.paid_date) {
@@ -71,15 +70,8 @@ export const useGroupDashboard = (urlGroupId?: string) => {
 
             const totalOutstanding = Math.round(rawTotalOwed);
 
-            const userObj: User = {
-                _id: memberUserId,
-                username: member.username || "Unknown",
-                email: member.email || "",
-                _creationTime: "", // backend fills this automatically
-            };
-
             return {
-                user: userObj,
+                user: member as unknown as User,
                 totalOutstanding,
                 assignmentIds: unpaidIds,
             };
@@ -99,7 +91,7 @@ export const useGroupDashboard = (urlGroupId?: string) => {
                 assignmentIds: settlementCandidate.assignmentIds,
             });
             toast.success(
-                `Settled debt for ${settlementCandidate.user.username}`
+                `Settled debt for ${settlementCandidate.user.username}`,
             );
             refreshBills();
             setSettlementCandidate(null);

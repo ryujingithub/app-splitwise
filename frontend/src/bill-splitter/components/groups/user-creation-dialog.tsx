@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import { useUsers } from "../../hooks/use-users";
-import { User } from "@/bill-splitter/types/user.type";
+import { User } from "@/auth/types/auth";
 
 interface UserCreationDialogProps {
     onUserCreated?: (user: User) => void;
@@ -26,6 +26,7 @@ const UserCreationDialog = ({
 }: UserCreationDialogProps) => {
     const [open, setOpen] = useState(false);
     const [username, setUsername] = useState("");
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const { createUser, isCreating } = useUsers();
 
@@ -35,12 +36,14 @@ const UserCreationDialog = ({
 
         try {
             const newUser = await createUser({
+                name: name.trim(),
                 username: username.trim(),
                 email: email.trim(),
             });
             toast.success("User created successfully");
             setUsername("");
             setEmail("");
+            setName("");
             setOpen(false);
             onUserCreated?.(newUser);
         } catch {
@@ -70,6 +73,16 @@ const UserCreationDialog = ({
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             placeholder="Enter username"
+                            required
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="name">name</Label>
+                        <Input
+                            id="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Enter name"
                             required
                         />
                     </div>

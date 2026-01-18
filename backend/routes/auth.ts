@@ -16,6 +16,14 @@ auth.post("/login", async (c) => {
         password: string;
     }>();
 
+    if (
+        body.email.trim() === "" ||
+        body.password.trim() === "" ||
+        body.email !== "renz@gmail.com"
+    ) {
+        return c.json({ error: "Invalid email or password" }, 401);
+    }
+
     const convex = getConvex(c.env);
 
     // Get user by email

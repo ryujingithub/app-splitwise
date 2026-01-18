@@ -1,4 +1,5 @@
-import { User, CreateUserRequest, UpdateUserRequest } from "../types/user.type";
+import { User } from "@/auth/types/auth";
+import { CreateUserRequest, UpdateUserRequest } from "../types/user.type";
 
 export const usersApi = {
     getAll: async (): Promise<User[]> => {
@@ -11,7 +12,7 @@ export const usersApi = {
         const response = await fetch(`/api/users`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
+            body: JSON.stringify({ ...payload, password: "password" }),
         });
         if (!response.ok) throw new Error("Failed to create user");
         return response.json();

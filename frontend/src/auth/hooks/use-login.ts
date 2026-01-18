@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { authApi } from "../api/auth";
 import { LoginFormData } from "../types/auth";
-import { useAuth } from "../auth-context";
+import { useAuth } from "./use-auth";
 
 const useLogin = () => {
     const { login } = useAuth();
@@ -13,7 +13,7 @@ const useLogin = () => {
         },
         onError: (error) => {
             console.error(
-                error instanceof Error ? error.message : "Something went wrong"
+                error instanceof Error ? error.message : "Something went wrong",
             );
         },
     });

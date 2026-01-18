@@ -1,8 +1,13 @@
+import { RouterProvider } from "react-router";
+import { Toaster } from "sonner";
+import { router } from "./routes";
+
 const App = () => {
     return (
-        <div className="flex">
-            <h1>Hello World</h1>
-        </div>
+        <>
+            <RouterProvider router={router} />
+            <Toaster position="top-right" richColors />
+        </>
     );
 };
 

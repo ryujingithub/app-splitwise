@@ -1,7 +1,9 @@
+import { ConvexDefaultProps } from "@/bill-splitter/types/index.type";
 import z from "zod";
 
-export type User = {
-    id: string;
+export interface User extends ConvexDefaultProps {
+    _id: string;
+    name: string;
     username: string;
     email: string;
     role: "member" | "admin" | "system_admin";
@@ -10,7 +12,7 @@ export type User = {
     updatedAt: number;
     defaultGroupId?: string;
     activeGroupId?: string;
-};
+}
 
 export type AuthResponse = {
     user: User;
@@ -35,7 +37,7 @@ export const registerSchema = z
             .max(20, "Username must be at most 20 characters")
             .regex(
                 /^[a-zA-Z0-9_]+$/,
-                "Username can only contain letters, numbers, and underscores"
+                "Username can only contain letters, numbers, and underscores",
             ),
         email: z.string().email("Invalid email address"),
         password: z
@@ -43,11 +45,11 @@ export const registerSchema = z
             .min(8, "Password must be at least 8 characters")
             .regex(
                 /[A-Z]/,
-                "Password must contain at least one uppercase letter"
+                "Password must contain at least one uppercase letter",
             )
             .regex(
                 /[a-z]/,
-                "Password must contain at least one lowercase letter"
+                "Password must contain at least one lowercase letter",
             )
             .regex(/[0-9]/, "Password must contain at least one number"),
         confirmPassword: z.string(),
