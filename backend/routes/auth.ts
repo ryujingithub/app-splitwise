@@ -16,11 +16,7 @@ auth.post("/login", async (c) => {
         password: string;
     }>();
 
-    if (
-        body.email.trim() === "" ||
-        body.password.trim() === "" ||
-        body.email !== "renz@gmail.com"
-    ) {
+    if (body.email.trim() === "" || body.password.trim() === "") {
         return c.json({ error: "Invalid email or password" }, 401);
     }
 
