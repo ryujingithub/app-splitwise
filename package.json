@@ -2,7 +2,8 @@
     "name": "splitwise",
     "private": true,
     "workspaces": [
-        "frontend"
+        "frontend",
+        "backend"
     ],
     "scripts": {
         "dev": "concurrently \"npm run dev --workspace=frontend\" \"npm run dev --workspace=backend\" \"npx convex dev\"",
