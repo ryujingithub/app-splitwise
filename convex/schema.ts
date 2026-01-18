@@ -10,7 +10,7 @@ export default defineSchema({
 
     users: defineTable({
         username: v.string(),
-        name: v.string(),
+        name: v.optional(v.string()),
         email: v.string(),
         passwordHash: v.string(),
         defaultGroupId: v.optional(v.id("groups")),

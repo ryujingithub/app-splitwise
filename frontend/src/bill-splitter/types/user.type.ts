@@ -1,5 +1,5 @@
 export interface CreateUserRequest {
-    name: string;
+    name?: string;
     username: string;
     email: string;
     default_group_id?: number | null;
