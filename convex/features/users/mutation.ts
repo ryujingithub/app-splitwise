@@ -10,8 +10,8 @@ export const create = mutation({
             v.union(
                 v.literal("member"),
                 v.literal("admin"),
-                v.literal("system_admin")
-            )
+                v.literal("system_admin"),
+            ),
         ),
     },
     handler: async (ctx, args) => {
@@ -25,6 +25,7 @@ export const create = mutation({
         const now = Date.now();
         const id = await ctx.db.insert("users", {
             username: args.username,
+            name: args.username,
             email: args.email,
             passwordHash: args.passwordHash,
             role: args.role ?? "member",
@@ -48,8 +49,8 @@ export const update = mutation({
             v.union(
                 v.literal("member"),
                 v.literal("admin"),
-                v.literal("system_admin")
-            )
+                v.literal("system_admin"),
+            ),
         ),
         isActive: v.optional(v.boolean()),
     },

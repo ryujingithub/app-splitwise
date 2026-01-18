@@ -10,13 +10,14 @@ export default defineSchema({
 
     users: defineTable({
         username: v.string(),
+        name: v.string(),
         email: v.string(),
         passwordHash: v.string(),
         defaultGroupId: v.optional(v.id("groups")),
         role: v.union(
             v.literal("member"),
             v.literal("admin"),
-            v.literal("system_admin")
+            v.literal("system_admin"),
         ),
         isActive: v.boolean(),
         deletedAt: v.optional(v.number()),
