@@ -9,6 +9,8 @@ const env: Bindings = {
     CONVEX_URL: process.env.CONVEX_URL!,
     JWT_SECRET: process.env.JWT_SECRET!,
     GOOGLE_API_KEY: process.env.GOOGLE_API_KEY!,
+    BETTER_AUTH_URL: process.env.BETTER_AUTH_URL!,
+    BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET!,
 };
 
 const devApp = new Hono<{ Bindings: Bindings }>();
