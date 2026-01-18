@@ -8,6 +8,7 @@ import { aiModels } from "./routes/ai-models";
 import { HonoWithConvex } from "convex-helpers/server/hono";
 import { ActionCtx } from "../convex/_generated/server";
 import { auth } from "./routes/auth";
+import { test } from "./routes/test";
 
 const app: HonoWithConvex<ActionCtx> = new Hono();
 // 3. CORS Configuration
@@ -34,5 +35,6 @@ app.route("/api/bills", bills);
 app.route("/api/ocr", ocr);
 app.route("/api/models", aiModels);
 app.route("/api/auth", auth);
+app.route("/api/test", test);
 
 export default app;
